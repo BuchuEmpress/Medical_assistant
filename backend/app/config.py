@@ -6,8 +6,8 @@ from functools import lru_cache
 
 
 class Settings(BaseSettings):
-    google_api_key: str = Field(..., description="AIzaSyBCL_GrzwU7iiCuJ_ByUC4Xrdo7QtLsn5k")
-    tavily_api_key: str = Field(..., description="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")
+    google_api_key: str = Field(..., description="google api key")
+    tavily_api_key: str = Field(..., description="tavily api key")
     host: str = Field(default="0.0.0.0")
     port: int = Field(default=8000)
     cors_origins: str = Field(default="http://localhost:3000")
