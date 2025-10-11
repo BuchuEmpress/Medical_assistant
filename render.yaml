@@ -2,8 +2,10 @@ services:
   - type: web
     name: medicare-ai-backend
     env: python
-    buildCommand: cd backend && pip install -r requirements.txt
-    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    plan: free
+    workingDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: GOOGLE_API_KEY
         sync: false
@@ -12,4 +14,5 @@ services:
       - key: CORS_ORIGINS
         value: https://your-frontend-url.vercel.app
       - key: PYTHON_VERSION
-        value: "3.11.0"
+        value: 3.11.0
+
