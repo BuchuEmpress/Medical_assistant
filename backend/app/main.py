@@ -20,6 +20,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://medical-assistant-frontend.vercel.app"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Include route modules
 app.include_router(health.router)
 app.include_router(analysis.router)
