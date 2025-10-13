@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
-from app.routes import health, analysis, research
-from app.routes import image  # ✅ ADDED: Import the image route
+from app.routes import health, analysis, research, image
 
 app = FastAPI(
     title="MediCare AI Backend",
@@ -33,7 +32,7 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(analysis.router)
 app.include_router(research.router)
-app.include_router(image.router)  # ✅ ADDED: Include the image route
+app.include_router(image.router)  # Include the image route
 
 # Root route for Render health check + general info
 @app.get("/")
