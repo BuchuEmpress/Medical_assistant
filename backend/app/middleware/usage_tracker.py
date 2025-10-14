@@ -18,7 +18,7 @@ def check_gemini_limit(request: Request):
     if usage["count"] >= settings.gemini_daily_limit:
         raise HTTPException(status_code=429, detail="Gemini usage limit reached for today.")
     
-    usage["count"] += 1
+    usage["count"] += 1 
 
 def check_tavily_limit(request: Request):
     ip = request.client.host
