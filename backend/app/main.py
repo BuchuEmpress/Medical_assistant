@@ -14,15 +14,7 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins_list,  # defined in your app.config.settings
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["https://medical-assistant-frontend.vercel.app"],
+    allow_origins=settings.cors_origins_list + ["https://medical-assistant-frontend.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -32,7 +24,6 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(analysis.router)
 app.include_router(research.router)
-app.include_router(image.router)  # Include the image route
 
 # Root route for Render health check + general info
 @app.get("/")

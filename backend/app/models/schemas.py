@@ -21,6 +21,7 @@ class ChatResponse(BaseModel):
 
 
 class AnalysisRequest(BaseModel):
+    user_id: str = Field(..., min_length=1)
     text: str = Field(..., min_length=1)
     context: str = Field(default="")
     language: str = Field(default="en")
@@ -49,6 +50,7 @@ class ImageAnalysisResponse(BaseModel):
 
 
 class ResearchRequest(BaseModel):
+    user_id: str = Field(..., min_length=1)
     query: str = Field(..., min_length=3, max_length=200)
     max_results: int = Field(default=5, ge=1, le=10)
     language: str = Field(default="en")

@@ -60,7 +60,8 @@ async def analyze_medical_text(request: Request, body: AnalysisRequest):
         analysis = analyze_medical_record(
             text=body.text,
             context=body.context,
-            language=body.language
+            language=body.language,
+            user_id=body.user_id
         )
 
         disclaimer = (
@@ -86,7 +87,8 @@ async def analyze_medical_image(
     request: Request,
     file: UploadFile = File(...),
     language: str = Form(default="en"),
-    extract_text_only: bool = Form(default=False)
+    extract_text_only: bool = Form(default=False),
+    user_id: str = Form(...)
 ):
     """
     Endpoint: /api/analyze-image
@@ -116,7 +118,7 @@ async def analyze_medical_image(
                 )
             )
 
-        analysis = analyze_medical_record(text=extracted_text, language=language)
+        analysis = analyze_medical_record(text=extracted_text, language=language, user_id=user_id)
         disclaimer = (
             "This analysis is for informational purposes only. "
             "Always consult qualified healthcare professionals for medical advice."
