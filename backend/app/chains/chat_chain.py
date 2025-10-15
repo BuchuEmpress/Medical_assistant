@@ -1,7 +1,7 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from app.config import load_google_llm
-from services.memory_service import get_memory
+from app.services.memory_service import get_memory
 
 
 # def create_chat_chain(language: str = "en"):
