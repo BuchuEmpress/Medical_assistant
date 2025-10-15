@@ -65,3 +65,4 @@ class ResearchResponse(BaseModel):
     results: list[ResearchResult]
     summary: str
     timestamp: datetime
+    
