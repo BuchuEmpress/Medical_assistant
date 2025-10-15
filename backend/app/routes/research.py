@@ -21,11 +21,16 @@ async def search_medical_research(request: Request, body: ResearchRequest):
     check_tavily_limit(request)
 
     try:
+        # 🧠 Prepare topic and scoped query
+        topic = body.query.strip() if body.query else "general health"
+        query = f"Medical research related to {topic}"
+
         # 🔍 Search medical research using Tavily
         raw_results = tavily_service.search_medical_research(
-            query=body.query,
-            max_results=body.max_results
+        query=query,
+        max_results=body.max_results
         )
+
 
         # 🧹 Format raw Tavily results
         formatted_results = tavily_service.format_results(raw_results)

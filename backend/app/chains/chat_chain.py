@@ -56,7 +56,7 @@ IMPORTANT:
     return chain
 
 
-def get_chat_response(message: str, language: str = "en"):
+async def get_chat_response(message: str, language: str = "en"):
     chain = build_chat_chain(language)
-    response = chain.invoke({"user_question": message})
+    response = await chain.ainvoke({"user_question": message})
     return response
