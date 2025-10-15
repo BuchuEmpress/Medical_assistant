@@ -9,6 +9,7 @@ class HealthCheckResponse(BaseModel):
 
 
 class ChatRequest(BaseModel):
+    user_id: str = Field(..., min_length=1)
     message: str = Field(..., min_length=1, max_length=1000)
     language: str = Field(default="en", pattern="^(en|fr)$")
 

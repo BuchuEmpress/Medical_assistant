@@ -18,15 +18,25 @@ router = APIRouter(prefix="/api", tags=["Analysis"])
 async def chat_with_ai(request: Request, body: ChatRequest):
     """
     Endpoint: /api/chat
-    Description: Handles chat interaction with Gemini model.
+    Description: Handles chat interaction with Gemini model with memory support.
     Rate Limiting: Enforced via check_gemini_limit() to prevent token exhaustion.
     """
     check_gemini_limit(request)
 
     try:
-        response_text = get_chat_response(
+        # Import memory service
+        from app.services.memory_service import save_memory
+        import re
+        
+        # Check if message should be remembered
+        message_lower = body.message.lower()
+        if "remember that" in message_lower or re.search(r"\bi (have|take|use|suffer from|was diagnosed with|am allergic to)\b", message_lower):
+            save_memory(body.user_id, body.message)
+        
+        response_text = await get_chat_response(
             message=body.message,
-            language=body.language
+            language=body.language,
+            user_id=body.user_id
         )
         return ChatResponse(
             response=response_text,
