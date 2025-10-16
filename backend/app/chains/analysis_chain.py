@@ -75,19 +75,12 @@ Respond ONLY with valid JSON."""
     return chain
 
 
-def analyze_medical_record(text: str, context: str = "", language: str = "en", user_id: str = None):
-    from app.services.memory_service import get_memory
+def analyze_medical_record(text: str, context: str = "", language: str = "en"):
     
     chain = create_analysis_chain(language)
-    
-    # Get user memory
-    remembered_facts = get_memory(user_id) if user_id else []
-    memory_context = "\n".join([f"- {fact}" for fact in remembered_facts]) if remembered_facts else ""
-    
+
     # Combine context with memory
     full_context = context if context else "No additional context provided"
-    if memory_context:
-        full_context += f"\n\nUser's Medical History:\n{memory_context}"
 
     try:
         result = chain.invoke({

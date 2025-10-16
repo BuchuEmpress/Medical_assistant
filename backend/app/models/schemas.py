@@ -21,7 +21,6 @@ class ChatResponse(BaseModel):
 
 
 class AnalysisRequest(BaseModel):
-    user_id: str = Field(..., min_length=1)
     text: str = Field(..., min_length=1)
     context: str = Field(default="")
     language: str = Field(default="en")

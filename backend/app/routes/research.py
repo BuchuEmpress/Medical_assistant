@@ -35,13 +35,6 @@ async def search_medical_research(request: Request, body: ResearchRequest):
         # 🧹 Format raw Tavily results
         formatted_results = tavily_service.format_results(raw_results)
 
-        # 🧠 Get user memory for context
-        from app.services.memory_service import get_memory
-        remembered_facts = get_memory(body.user_id) if body.user_id else []
-        memory_context = ""
-        if remembered_facts:
-            memory_context = f"\n\nUser's Medical History:\n" + "\n".join([f"- {fact}" for fact in remembered_facts])
-
         # 🧠 Prepare summary prompt for Gemini
         results_text = "\n\n".join([
             f"Source: {r['title']}\n{r['content']}"
@@ -52,7 +45,7 @@ async def search_medical_research(request: Request, body: ResearchRequest):
 
 {results_text}
 
-Focus on the key takeaways and most important information.{memory_context}"""
+Focus on the key takeaways and most important information."""
 
         # 🧠 Get summary from Gemini
         summary = await get_chat_response(summary_prompt, body.language, body.user_id)

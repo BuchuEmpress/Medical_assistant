@@ -25,19 +25,18 @@ async def chat_with_ai(request: Request, body: ChatRequest):
 
     try:
         # Import memory service
-        from app.services.memory_service import save_memory
-        import re
+        from app.services.memory_service import save_message
         
-        # Check if message should be remembered
-        message_lower = body.message.lower()
-        if "remember that" in message_lower or re.search(r"\bi (have|take|use|suffer from|was diagnosed with|am allergic to)\b", message_lower):
-            save_memory(body.user_id, body.message)
+        # Save user message
+        save_message(body.user_id, "user", body.message)
         
         response_text = await get_chat_response(
             message=body.message,
             language=body.language,
             user_id=body.user_id
         )
+        # Save AI response to history
+        save_message(body.user_id, "assistant", response_text)
         return ChatResponse(
             response=response_text,
             language=body.language,
@@ -61,7 +60,6 @@ async def analyze_medical_text(request: Request, body: AnalysisRequest):
             text=body.text,
             context=body.context,
             language=body.language,
-            user_id=body.user_id
         )
 
         disclaimer = (
@@ -88,7 +86,6 @@ async def analyze_medical_image(
     file: UploadFile = File(...),
     language: str = Form(default="en"),
     extract_text_only: bool = Form(default=False),
-    user_id: str = Form(...)
 ):
     """
     Endpoint: /api/analyze-image
@@ -118,7 +115,7 @@ async def analyze_medical_image(
                 )
             )
 
-        analysis = analyze_medical_record(text=extracted_text, language=language, user_id=user_id)
+        analysis = analyze_medical_record(text=extracted_text, language=language)
         disclaimer = (
             "This analysis is for informational purposes only. "
             "Always consult qualified healthcare professionals for medical advice."
