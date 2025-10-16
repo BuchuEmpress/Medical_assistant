@@ -66,4 +66,8 @@ IMPORTANT:
 async def get_chat_response(message: str, language: str = "en", user_id: str = None):
     chain = build_chat_chain(language, user_id)
     response = await chain.invoke({"user_question": message})
-    return response
+    
+     # Ensure we return a string, not an object
+    if isinstance(response, dict):
+        return response.get('text', str(response))
+    return str(response)
