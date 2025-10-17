@@ -62,7 +62,7 @@ IMPORTANT:
     chain = prompt | llm | parser
 
     return chain
-
+    # check
 async def get_chat_response(message: str, language: str = "en", user_id: str = None):
     chain = build_chat_chain(language, user_id)
     response = await chain.ainvoke({"user_question": message})
