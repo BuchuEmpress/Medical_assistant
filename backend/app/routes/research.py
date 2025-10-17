@@ -51,7 +51,7 @@ Focus on the key takeaways and most important information."""
         # gemini memory
         summary = await get_chat_response(
             message=summary_prompt, 
-            lanhuage=body.language, 
+            language=body.language, 
             user_id=body.user_id)
 
         # 📦 Structure the research results
