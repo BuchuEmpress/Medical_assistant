@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     host: str = Field(default="0.0.0.0")
     port: int = Field(default=8000)
     cors_origins: str = Field(default="http://localhost:3000")
-    gemini_model: str = Field(default="gemini-2.0-flash-exp")
+    gemini_model: str = Field(default="gemini-1.5-flash")
     temperature: float = Field(default=0.7, ge=0.0, le=2.0)
     max_tokens: int = Field(default=2048, ge=100, le=8192)
     max_file_size: int = Field(default=10 * 1024 * 1024)
