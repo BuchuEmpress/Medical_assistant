@@ -3,7 +3,7 @@ from app.models.schemas import ResearchRequest, ResearchResponse, ResearchResult
 from app.services.tavily_service import tavily_service
 from app.chains.chat_chain import get_chat_response
 from datetime import datetime
-from app.middleware.usage_tracker import check_tavily_limit
+from app.middleware.usage_tracker import check_tavily_limit, check_gemini_limit
 
 # Initialize the router with a prefix and tag for documentation
 router = APIRouter(prefix="/api", tags=["Research"])
@@ -19,6 +19,9 @@ async def search_medical_research(request: Request, body: ResearchRequest):
 
     # ✅ Enforce Tavily usage limit per IP
     check_tavily_limit(request)
+    
+    # ✅ Enforce Gemini usage limit per IP (for summary generation)
+    check_gemini_limit(request)
 
     try:
         # 🧠 Prepare topic and scoped query
